@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/dasouche/.nvm/versions/node/v11.10.0/bin/node /Users/dasouche/.nvm/versions/node/v11.10.0/bin/yarn add @types/babel-register
+  /Users/dasouche/.nvm/versions/node/v11.10.0/bin/node /Users/dasouche/.nvm/versions/node/v11.10.0/bin/yarn add @souche-ui/tant
 
 PATH: 
   /Users/dasouche/.nvm/versions/node/v11.10.0/bin:/usr/local/bin:/Users/dasouche/.nvm/versions/node/v11.10.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: http://registry.npm.souche-inc.com/@types%2fbabel-register: Not found
+  Error: https://registry.npmjs.org/@souche-ui%2ftant: Not found
       at Request.params.callback [as _callback] (/Users/dasouche/.nvm/versions/node/v11.10.0/lib/node_modules/yarn/lib/cli.js:66255:18)
       at Request.self.callback (/Users/dasouche/.nvm/versions/node/v11.10.0/lib/node_modules/yarn/lib/cli.js:129397:22)
       at Request.emit (events.js:197:13)
