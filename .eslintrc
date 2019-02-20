@@ -3,13 +3,18 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "commonjs": true
   },
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true,
-      "experimentalObjectRestSpread": true
+      "experimentalObjectRestSpread": true,
+      "legacyDecorators": true
+    },
+    "globals": {
+      "Store": false
     }
   },
   "rules": {
@@ -52,6 +57,7 @@
     "import/no-unresolved": 0,
     "import/no-extraneous-dependencies": 0,
     "import/no-named-default": 1,
+    "import/named": 2,
     "import/first": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/img-has-alt": 0,
@@ -67,8 +73,5 @@
   "plugins": [
     "react",
     "babel"
-  ],
-  "globals": {
-    "Store": false
-  }
+  ]
 }
