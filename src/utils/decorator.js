@@ -12,13 +12,36 @@ export const classDecoratorWithParams = (params = true) => (target) => {
 // 类的装饰器（给类添加实例属性）
 export const classDecoratorAddPrototype = prototypeList => (target) => {
   target.prototype = { ...target.prototype, ...prototypeList }
+  target.prototype.logger = () => console.info(`${target.name} 被调用`) // target.name即获得类的名
 }
 
 // 方法的装饰器
-export const funDecorator = (params = {}) => (target, prototypeKey, ) => {
+export const funDecorator = (params = { readonly: true }) => (target, prototypeKey, descriptor) => {
   /*
     此处target为类的原型对象，即方法Class.prototype
     ps：装饰器的本意是要装饰类的实例，但此时实例还未生成，所以只能装饰类的原型
-  */
-  // prototypeKey为要装饰的属性名
+   */
+  /*
+    prototypeKey为要装饰的方法(属性名)
+   */
+  /*
+    descriptor为要修饰的方法(属性名)的描述对象，即(默认值为)：
+    {
+      value: specifiedFunction,
+      enumerable: false,
+      configurable: true,
+      writable: true
+    }
+   */
+
+  // 实现一个传参的readonly，修改描述对象的writable
+  descriptor.writable = !params.readonly
+  // 返回这个新的描述对象
+  return descriptor
 }
+
+/*
+  调用funDecorator(Class.prototype, prototypeKey, descriptor)
+  相当于
+  Object.defineProperty(Class.prototype, prototypeKey, descriptor)
+  */

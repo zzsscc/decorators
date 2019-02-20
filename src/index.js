@@ -8,12 +8,11 @@ import {
   funDecorator
 } from './utils/decorator'
 
-const fun = () => new Promise(async (resolve, reject) => {
+export const fun = () => new Promise(async (resolve, reject) => {
   await setTimeout(() => {
     console.info('123')
     resolve()
   }, 2000)
-  if (false) reject()
 })
 
 fun()
@@ -22,7 +21,7 @@ definePropertyValue()
 definePropertyGSet()
 
 @classDecorator
-class ClassA {
+export class ClassA {
   constructor() {
     this.a = 1
   }
@@ -32,7 +31,7 @@ class ClassA {
 console.info('ClassA.a: ', ClassA.a) // true
 
 @classDecoratorWithParams(false)
-class ClassB {
+export class ClassB {
   constructor() {
     this.a = 1
   }
@@ -56,6 +55,7 @@ export class ClassC {
 // console.info('ClassC.fn: ', ClassC.fn()) // 报错，fn不在ClassC的静态属性上
 const classC = new ClassC()
 classC.fn()
+classC.logger()
 
 
 export class ClassD {
@@ -63,8 +63,17 @@ export class ClassD {
     this.a = 1
   }
 
-  @funDecorator
-  fun = () => {
+  @funDecorator()
+  fun = (tag) => {
     this.a = 2
+    console.info(`this.a ${tag}`, this.a)
   }
 }
+const classD = new ClassD()
+classD.fun('first')
+
+// 报错，无法改变classD.fun，因为他的描述对象descriptor.writable已经被装饰器修改为false
+// classD.fun = (tag) => {
+//   console.info(`this.a changed ${tag}`)
+// }
+// classD.fun('sec')
