@@ -37,7 +37,7 @@ export const funDecorator = (params = { readonly: true }) => (target, prototypeK
   // 实现一个传参的readonly，修改描述符的writable
   descriptor.writable = !params.readonly
   // 返回这个新的描述符
-  return descriptor;
+  return descriptor
 }
 
 /*
