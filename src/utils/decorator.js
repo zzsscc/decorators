@@ -25,7 +25,7 @@ export const funDecorator = (params = { readonly: true }) => (target, prototypeK
     prototypeKey为要装饰的方法(属性名)
    */
   /*
-    descriptor为要修饰的方法(属性名)的描述对象，即(默认值为)：
+    descriptor为要修饰的方法(属性名)的描述符，即(默认值为)：
     {
       value: specifiedFunction,
       enumerable: false,
@@ -34,10 +34,10 @@ export const funDecorator = (params = { readonly: true }) => (target, prototypeK
     }
    */
 
-  // 实现一个传参的readonly，修改描述对象的writable
+  // 实现一个传参的readonly，修改描述符的writable
   descriptor.writable = !params.readonly
-  // 返回这个新的描述对象
-  return descriptor
+  // 返回这个新的描述符
+  return descriptor;
 }
 
 /*

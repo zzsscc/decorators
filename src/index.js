@@ -72,7 +72,7 @@ export class ClassD {
 const classD = new ClassD()
 classD.fun('first')
 
-// 报错，无法改变classD.fun，因为他的描述对象descriptor.writable已经被装饰器修改为false
+// 报错，无法改变classD.fun，因为他的描述符descriptor.writable已经被装饰器修改为false
 try {
   classD.fun = (tag) => {
     console.info(`this.a changed ${tag}`)
