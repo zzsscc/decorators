@@ -45,7 +45,7 @@ export const funDecorator = (params = { readonly: true }) => (target, prototypeK
   Object.defineProperty(Class.prototype, prototypeKey, descriptor)
   */
 
-// 方法的装饰器(在方法执行的前后添加操作：如show/hide loading)
+// 方法的增强装饰器(在方法执行的前后添加操作：如show/hide loading)
 export const funEnhanceDecorator = (params = {}) => (target, prototypeKey, descriptor) => {
   // 默认需要showLoading
   const { showLoading = true } = params
@@ -63,4 +63,95 @@ export const funEnhanceDecorator = (params = {}) => (target, prototypeKey, descr
     }
   };
   return descriptor
+}
+
+// time => 计数and计时
+const labels = {};
+// Exported for mocking in tests
+export const defaultConsole = {
+  time: console.time ? console.time.bind(console) : (label) => {
+    labels[label] = new Date();
+  },
+  timeEnd: console.timeEnd ? console.timeEnd.bind(console) : (label) => {
+    const timeNow = new Date();
+    const timeTaken = timeNow - labels[label];
+    delete labels[label];
+    console.info(`${label}: ${timeTaken}ms`);
+  }
+};
+let count = 0;
+
+export const time = (params = { prefix: null, console: defaultConsole }) => (target, prototypeKey, descriptor) => {
+  const fn = descriptor.value
+  let { prefix } = params
+  const { console } = params
+  if (prefix === null) {
+    prefix = `${target.constructor.name}.${prototypeKey}`
+  }
+
+  if (typeof fn !== 'function') {
+    throw new SyntaxError(`@time can only be used on functions, not: ${fn}`)
+  }
+
+  return {
+    ...descriptor,
+    async value(...args) {
+      const label = `${prefix}-${count}`
+      count += 1
+      console.time(label)
+
+      try {
+        return await fn.apply(this, args)
+      } finally {
+        console.timeEnd(label)
+      }
+    }
+  }
+}
+
+// deprecate => 标记废弃
+const DEFAULT_MSG = 'This function will be removed in future versions.'
+export const deprecate = (params = { msg: DEFAULT_MSG, options: {} }) => (target, prototypeKey, descriptor) => {
+  if (typeof descriptor.value !== 'function') {
+    throw new SyntaxError('Only functions can be marked as deprecated')
+  }
+
+  const methodSignature = `${target.constructor.name}#${prototypeKey}`
+  let { msg } = params
+  const { options } = params
+
+  if (options.url) {
+    msg += `\n\n    See ${options.url} for more details.\n\n`;
+  }
+
+  return {
+    ...descriptor,
+    value(...args) {
+      console.warn(`DEPRECATION ${methodSignature}: ${msg}`)
+      return descriptor.value.apply(this, args)
+    }
+  }
+}
+
+// test sequence 测试顺序
+export const testSequence1 = (params = {}) => (target, prototypeKey, descriptor) => {
+  const oldValue = descriptor.value
+  return {
+    ...descriptor,
+    value(...args) {
+      console.log('test1')
+      oldValue.apply(this, args)
+    }
+  }
+}
+
+export const testSequence2 = (params = {}) => (target, prototypeKey, descriptor) => {
+  const oldValue = descriptor.value
+  return {
+    ...descriptor,
+    value(...args) {
+      console.log('test2')
+      oldValue.apply(this, args)
+    }
+  }
 }

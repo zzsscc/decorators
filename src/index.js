@@ -6,14 +6,18 @@ import {
   classDecoratorWithParams,
   classDecoratorAddPrototype,
   funDecorator,
-  funEnhanceDecorator
+  funEnhanceDecorator,
+  time,
+  deprecate,
+  testSequence1,
+  testSequence2
 } from './utils/decorator'
 
 export const fun = () => new Promise(async (resolve, reject) => {
   await setTimeout(() => {
     console.info('123')
     resolve()
-  }, 4000)
+  }, 1000)
 })
 
 fun()
@@ -30,6 +34,7 @@ export class ClassA {
   a = 2
 }
 console.info('ClassA.a: ', ClassA.a) // true
+
 
 @classDecoratorWithParams(false)
 export class ClassB {
@@ -84,6 +89,7 @@ try {
   // throw
 }
 
+
 export class ClassE {
   constructor() {
     this.result = {}
@@ -105,3 +111,25 @@ export class ClassE {
 }
 const classE = new ClassE()
 classE.fun({ id: 100 })
+
+
+export class ClassF {
+  constructor() {
+    this.result = {}
+  }
+
+  @time()
+  @deprecate()
+  @testSequence1()
+  @testSequence2()
+  fun() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(this.result)
+      }, 3000)
+    })
+  }
+}
+const classf = new ClassF()
+classf.fun()
+classf.fun()
