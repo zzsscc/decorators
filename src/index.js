@@ -5,14 +5,15 @@ import {
   classDecorator,
   classDecoratorWithParams,
   classDecoratorAddPrototype,
-  funDecorator
+  funDecorator,
+  funEnhanceDecorator
 } from './utils/decorator'
 
 export const fun = () => new Promise(async (resolve, reject) => {
   await setTimeout(() => {
     console.info('123')
     resolve()
-  }, 2000)
+  }, 4000)
 })
 
 fun()
@@ -82,3 +83,25 @@ try {
   console.error(new Error(err))
   // throw
 }
+
+export class ClassE {
+  constructor() {
+    this.result = {}
+  }
+
+  afun = (params) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(params.id)
+      }, 2000)
+    })
+  }
+
+  @funEnhanceDecorator()
+  async fun(params = {}) { // 不能使用箭头函数？
+    const result = await this.afun(params)
+    console.info(result)
+  }
+}
+const classE = new ClassE()
+classE.fun({ id: 100 })

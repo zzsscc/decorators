@@ -39,9 +39,28 @@ export const funDecorator = (params = { readonly: true }) => (target, prototypeK
   // 返回这个新的描述符
   return descriptor
 }
-
 /*
   调用funDecorator(Class.prototype, prototypeKey, descriptor)
   相当于
   Object.defineProperty(Class.prototype, prototypeKey, descriptor)
   */
+
+// 方法的装饰器(在方法执行的前后添加操作：如show/hide loading)
+export const funEnhanceDecorator = (params = {}) => (target, prototypeKey, descriptor) => {
+  // 默认需要showLoading
+  const { showLoading = true } = params
+  const oldValue = descriptor.value
+  descriptor.value = async function A(...args) {
+    try {
+      showLoading && console.info('加载中')
+      const result = await oldValue.apply(this, args)
+      console.info('hide')
+      return result
+    } catch (err) {
+      console.info('hide')
+      console.error(err)
+      return null
+    }
+  };
+  return descriptor
+}
