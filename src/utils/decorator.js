@@ -139,7 +139,7 @@ export const testSequence1 = (params = {}) => (target, prototypeKey, descriptor)
   return {
     ...descriptor,
     value(...args) {
-      console.log('test1')
+      console.info('test1')
       oldValue.apply(this, args)
     }
   }
@@ -150,7 +150,7 @@ export const testSequence2 = (params = {}) => (target, prototypeKey, descriptor)
   return {
     ...descriptor,
     value(...args) {
-      console.log('test2')
+      console.info('test2')
       oldValue.apply(this, args)
     }
   }
