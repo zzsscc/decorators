@@ -119,7 +119,7 @@ export class ClassF {
   }
 
   @time()
-  @deprecate()
+  @deprecate({ options: { url: 'https://github.com/zzsscc' } })
   @testSequence1()
   @testSequence2()
   fun() {

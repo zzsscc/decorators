@@ -111,13 +111,13 @@ export const time = (params = { prefix: null, console: defaultConsole }) => (tar
 
 // deprecate => 标记废弃
 const DEFAULT_MSG = 'This function will be removed in future versions.'
-export const deprecate = (params = { msg: DEFAULT_MSG, options: {} }) => (target, prototypeKey, descriptor) => {
+export const deprecate = (params = { options: {} }) => (target, prototypeKey, descriptor) => {
   if (typeof descriptor.value !== 'function') {
     throw new SyntaxError('Only functions can be marked as deprecated')
   }
 
   const methodSignature = `${target.constructor.name}#${prototypeKey}`
-  let { msg } = params
+  let { msg = DEFAULT_MSG } = params
   const { options } = params
 
   if (options.url) {
