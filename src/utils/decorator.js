@@ -4,9 +4,9 @@ export const classDecorator = (target) => {
   target.a = true // 给类添加一个静态属性
 }
 
-// 传参的类的装饰器
-export const classDecoratorWithParams = (params = true) => (target) => {
-  target.a = params
+// 类的装饰器传参
+export const classDecoratorWithParams = (params = 'empty') => (target) => {
+  target.b = params
 }
 
 // 类的装饰器（给类添加实例属性）

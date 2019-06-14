@@ -30,26 +30,30 @@ export class ClassA {
   constructor() {
     this.a = 1
   }
-
-  a = 2
 }
-console.info('ClassA.a: ', ClassA.a) // true
-
+const classA = new ClassA()
+console.info(`
+  ClassA.a: ${ClassA.a},
+  classA.a:' ${classA.a}
+`) // true, 1
 
 @classDecoratorWithParams(false)
-export class ClassB {
+export class ClassB extends ClassA {
   constructor() {
-    this.a = 1
+    super()
+    this.b = 1
   }
 
   fun = () => {
-    console.info('fun中ClassB.a: ', this.a, ClassB.a) // 1, false
+    console.info('fun中ClassB.a: ', this.b, ClassB.b) // 1, false
   }
 }
-console.info('ClassB.a: ', ClassB.a) // false
+console.info('ClassB.a: ', ClassB.a) // true
+console.info('ClassB.b: ', ClassB.b) // false
 const classB = new ClassB()
-console.info('new ClassB().a: ', classB.a) // 1
+console.info('classB.b: ', classB.b) // 1
 classB.fun()
+process.exit(0)
 
 
 @classDecoratorAddPrototype({ fn() { console.info('fnfnfn') } }) // 此处不能使用箭头函数？
