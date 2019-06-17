@@ -45,7 +45,7 @@ export class ClassB extends ClassA {
   }
 
   fun = () => {
-    console.info('fun中ClassB.a: ', this.b, ClassB.b) // 1, false
+    console.info('fun中ClassB.b: ', this.b, ClassB.b) // 1, false
   }
 }
 console.info('ClassB.a: ', ClassB.a) // true
@@ -53,8 +53,6 @@ console.info('ClassB.b: ', ClassB.b) // false
 const classB = new ClassB()
 console.info('classB.b: ', classB.b) // 1
 classB.fun()
-process.exit(0)
-
 
 @classDecoratorAddPrototype({ fn() { console.info('fnfnfn') } }) // 此处不能使用箭头函数？
 export class ClassC {
