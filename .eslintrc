@@ -47,7 +47,7 @@
     "no-bitwise": ["error", {
       "allow": ["~"]
     }],
-    "no-console": 1,
+    "no-console": 0,
     "brace-style": 1,
     "no-plusplus": 2,
     "no-unused-expressions": ["error", {
