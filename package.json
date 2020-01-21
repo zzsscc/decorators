@@ -4,7 +4,7 @@
   "description": "@Decorator",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node src/index.js",
+    "start": "babel-node src/index2.js",
     "parcel": "parcel src/index.js",
     "parcel-html": "parcel src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
